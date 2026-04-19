@@ -84,6 +84,7 @@ export default function AdoptPetPage() {
   };
 
   return (
+    <div className="p-4 sm:p-6 lg:p-8 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-[1600px] mx-auto">
       <section className="dash-panel dashboard-hero-panel min-h-[220px] flex items-center">
         <div className="flex flex-wrap items-center justify-between gap-8 w-full">
           <div className="space-y-4 flex-1 min-w-[300px]">

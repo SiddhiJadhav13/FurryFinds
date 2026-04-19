@@ -276,6 +276,5 @@ export default function ClientDashboardPage() {
         </Card>
       </div>
     </div>
-    </div>
   );
 }
