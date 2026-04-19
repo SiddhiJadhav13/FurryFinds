@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { api } from "@/lib/api";
 import { useApp } from "@/context/AppContext";
 
 export default function RoleSignupPage() {
   const params = useParams();
+  const router = useRouter();
   const role = params.role === "admin" ? "admin" : "client";
-  const { supabase, refreshProfile } = useApp();
+  const { refreshProfile, loginLegacy } = useApp();
 
   const [form, setForm] = useState({
     name: "",
@@ -24,28 +26,18 @@ export default function RoleSignupPage() {
     setMessage("");
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: form.email,
-        password: form.password,
-        options: {
-          data: {
-            full_name: form.name,
-            role,
-          },
-        },
-      });
+      const { data } = await api.post(`/auth/${role}/signup`, form);
 
-      if (error) {
-        throw error;
-      }
-
-      if (data.session?.access_token) {
+      if (data.token) {
+        await loginLegacy(data.token, data.user);
         await refreshProfile();
+        router.push(role === "admin" ? "/admin/dashboard" : "/client/dashboard");
+        return;
       }
 
-      setMessage("Account created successfully. You can now log in.");
+      setMessage(data.message || "Account created successfully. You can now log in.");
     } catch (error) {
-      setMessage(error.message || "Signup failed");
+      setMessage(error.response?.data?.message || error.message || "Signup failed");
     } finally {
       setLoading(false);
     }

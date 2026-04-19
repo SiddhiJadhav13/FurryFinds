@@ -42,7 +42,7 @@ const getProfile = async (req, res) => {
         gender: "",
         dob: null,
         profile_image: legacyUser.avatar || "",
-        role: legacyUser.role || "client",
+        role: legacyUser.role || req.user?.role || "client",
         created_at: legacyUser.created_at || null,
       };
     }
@@ -95,7 +95,7 @@ const updateProfile = async (req, res) => {
         gender: gender || "",
         dob: dob || null,
         profile_image: legacy.avatar || "",
-        role: legacy.role || "client",
+        role: legacy.role || req.user?.role || "client",
         created_at: legacy.created_at || null,
       };
     }

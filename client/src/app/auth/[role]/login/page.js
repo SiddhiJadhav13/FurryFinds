@@ -9,7 +9,7 @@ import { useApp } from "@/context/AppContext";
 export default function RoleLoginPage() {
   const params = useParams();
   const router = useRouter();
-  const { supabase, refreshProfile, loginLegacy } = useApp();
+  const { refreshProfile, loginLegacy } = useApp();
   const role = params.role === "admin" ? "admin" : "client";
 
   const [form, setForm] = useState({ email: "", password: "" });
@@ -22,33 +22,16 @@ export default function RoleLoginPage() {
     setMessage("");
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email: form.email,
-        password: form.password,
-      });
-
-      if (authError || !authData.session) {
-        const message = String(authError?.message || "").toLowerCase();
-        if (!message.includes("invalid login credentials")) {
-          throw authError || new Error("Login failed");
-        }
-
-        const { data: legacyData } = await api.post(`/auth/${role}/login`, form);
-        await loginLegacy(legacyData.token, legacyData.user);
-        router.push(role === "admin" ? "/admin/dashboard" : "/client/dashboard");
-        return;
+      const { data } = await api.post(`/auth/${role}/login`, form);
+      
+      if (!data.token) {
+        throw new Error("Invalid response from server");
       }
 
-      const token = authData.session.access_token;
-      const profileRes = await api.get("/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const profileRole = String(profileRes.data?.user?.role || "client").toLowerCase();
+      await loginLegacy(data.token, data.user);
+      
+      const profileRole = String(data.user?.role || "client").toLowerCase();
       if (profileRole !== role) {
-        await supabase.auth.signOut();
         throw new Error(`This account is registered as ${profileRole}. Please use the ${profileRole} login.`);
       }
 

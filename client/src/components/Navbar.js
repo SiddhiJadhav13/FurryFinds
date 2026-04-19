@@ -82,119 +82,103 @@ export default function Navbar() {
           </span>
           <span>FurryFinds</span>
         </Link>
+        
+        <nav className="nav-center row gap-sm center">
+          <Link href="/" className="nav-link">Home</Link>
+          <Link href="/pets" className="nav-link">Pets</Link>
+          <Link href="/help" className="nav-link">Help</Link>
+          <Link href="/about" className="nav-link">About Us</Link>
+          <Link href="/#footer" className="nav-link">Contact</Link>
+        </nav>
 
         <div className="row center topbar-actions gap-sm" ref={panelRef}>
           <button
-            className="icon-btn"
+            className="icon-btn theme-toggle"
             aria-label="Toggle theme"
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
           >
             {!mounted || theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
-          {auth.user && (
-            <>
-              <button
-                className="icon-btn profile-btn"
-                aria-label="Open account profile"
-                onClick={() => {
-                  if (!open) {
-                    setForm({
-                      full_name: auth.profile?.full_name || "",
-                      phone: auth.profile?.phone || "",
-                      address: auth.profile?.address || "",
-                      gender: auth.profile?.gender || "",
-                      dob: auth.profile?.dob || "",
-                      profile_image: auth.profile?.profile_image || "",
-                    });
-                  }
-                  setOpen((prev) => !prev);
-                  setMessage("");
-                }}
-              >
-                <UserRound size={18} />
-              </button>
+          {auth.user ? (
+            <button
+              className="icon-btn profile-btn"
+              aria-label="Open account profile"
+              onClick={() => {
+                if (!open) {
+                  setForm({
+                    full_name: auth.profile?.full_name || "",
+                    phone: auth.profile?.phone || "",
+                    address: auth.profile?.address || "",
+                    gender: auth.profile?.gender || "",
+                    dob: auth.profile?.dob || "",
+                    profile_image: auth.profile?.profile_image || "",
+                  });
+                }
+                setOpen((prev) => !prev);
+                setMessage("");
+              }}
+            >
+              <UserRound size={18} />
+            </button>
+          ) : (
+            <div className="row gap-xs">
+              <Link href="/auth/client/login" className="nav-link">Login</Link>
+              <Link href="/auth/client/signup" className="btn btn-peach btn-sm">Join</Link>
+            </div>
+          )}
 
-              {open && (
-                <section className="account-panel glass" role="dialog" aria-label="Profile panel">
-                  <div className="account-head">
-                    <div className="account-avatar">
-                      {form.profile_image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={form.profile_image} alt="Profile" />
-                      ) : (
-                        <PawPrint size={18} />
-                      )}
-                    </div>
-                    <div>
-                      <h3>{auth.profile?.full_name || auth.user.email?.split("@")[0] || "User"}</h3>
-                      <p>{auth.user.email}</p>
-                    </div>
-                  </div>
+          {open && auth.user && (
+            <section className="account-panel glass" role="dialog" aria-label="Profile panel">
+              <div className="account-head">
+                <div className="account-avatar">
+                  {form.profile_image ? (
+                    <img src={form.profile_image} alt="Profile" />
+                  ) : (
+                    <PawPrint size={18} />
+                  )}
+                </div>
+                <div>
+                  <h3>{auth.profile?.full_name || auth.user.email?.split("@")[0] || "User"}</h3>
+                  <p>{auth.user.email}</p>
+                </div>
+              </div>
 
-                  <div className="account-grid">
-                    <input
-                      placeholder="Full Name"
-                      value={form.full_name}
-                      onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
-                    />
-                    <input value={auth.user.email || ""} disabled placeholder="Email" />
-                    <input
-                      placeholder="Phone Number"
-                      value={form.phone}
-                      onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-                    />
-                    <input
-                      placeholder="Address"
-                      value={form.address}
-                      onChange={(e) => setForm((p) => ({ ...p, address: e.target.value }))}
-                    />
-                    <input
-                      placeholder="Gender"
-                      value={form.gender}
-                      onChange={(e) => setForm((p) => ({ ...p, gender: e.target.value }))}
-                    />
-                    <input
-                      type="date"
-                      placeholder="Date of Birth"
-                      value={form.dob || ""}
-                      onChange={(e) => setForm((p) => ({ ...p, dob: e.target.value }))}
-                    />
-                    <input
-                      placeholder="Profile Photo URL"
-                      value={form.profile_image}
-                      onChange={(e) => setForm((p) => ({ ...p, profile_image: e.target.value }))}
-                    />
-                    <input value={auth.profile?.role || "client"} disabled placeholder="Role" />
-                    <input
-                      value={
-                        auth.profile?.created_at
-                          ? new Date(auth.profile.created_at).toLocaleDateString()
-                          : ""
-                      }
-                      disabled
-                      placeholder="Join Date"
-                    />
-                  </div>
+              <div className="account-grid">
+                <input
+                  placeholder="Full Name"
+                  value={form.full_name}
+                  onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
+                />
+                <input value={auth.user.email || ""} disabled placeholder="Email" />
+                <input
+                  placeholder="Phone Number"
+                  value={form.phone}
+                  onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                />
+                <input
+                  placeholder="Address"
+                  value={form.address}
+                  onChange={(e) => setForm((p) => ({ ...p, address: e.target.value }))}
+                />
+              </div>
 
-                  <div className="row gap-sm wrap account-actions">
-                    <button
-                      className="btn btn-mint account-save-btn"
-                      type="button"
-                      onClick={saveProfile}
-                      disabled={saving}
-                    >
-                      <Save size={14} /> {saving ? "Saving..." : "Save Changes"}
-                    </button>
-                    <button className="ghost account-logout-btn" type="button" onClick={logout} disabled={saving}>
-                      Logout
-                    </button>
-                  </div>
+              <div className="row gap-sm wrap account-actions">
+                <button
+                  className="btn btn-peach account-save-btn"
+                  type="button"
+                  onClick={saveProfile}
+                  disabled={saving}
+                >
+                  <Save size={14} /> {saving ? "Saving..." : "Save Changes"}
+                </button>
+                <button className="ghost account-logout-btn" type="button" onClick={logout} disabled={saving}>
+                  Logout
+                </button>
+              </div>
 
-                  {message && <p className="account-message">{message}</p>}
-                </section>
-              )}
-            </>
+              {message && <p className="account-message">{message}</p>}
+            </section>
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 const Pet = require("../models/Pet");
 const appDataService = require("../services/appDataService");
+const { uploadFiles } = require("../services/storageService");
 
 const useMongo = () => Boolean(process.env.MONGODB_URI);
 
@@ -59,7 +60,18 @@ const getPetById = async (req, res) => {
 };
 
 const createPet = async (req, res) => {
-  const images = (req.files || []).map((file) => `/uploads/${file.filename}`);
+  let images = (req.files || []).map((file) => `/uploads/${file.filename}`);
+
+  // If files were uploaded via multer, attempt to upload them to Supabase
+  if ((req.files || []).length > 0) {
+    try {
+      const urls = await uploadFiles(req.files || []);
+      if (urls && urls.length) images = urls;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Failed to upload files to storage:", error.message || error);
+    }
+  }
 
   const userId = req.user.id || req.user._id;
 
@@ -89,7 +101,16 @@ const updatePet = async (req, res) => {
     return res.status(404).json({ success: false, message: "Pet not found" });
   }
 
-  const newImages = (req.files || []).map((file) => `/uploads/${file.filename}`);
+  let newImages = (req.files || []).map((file) => `/uploads/${file.filename}`);
+  if ((req.files || []).length > 0) {
+    try {
+      const urls = await uploadFiles(req.files || []);
+      if (urls && urls.length) newImages = urls;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Failed to upload files to storage:", error.message || error);
+    }
+  }
   const existingImages = req.body.existingImages
     ? Array.isArray(req.body.existingImages)
       ? req.body.existingImages

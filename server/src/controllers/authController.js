@@ -75,6 +75,9 @@ const register = (role) => async (req, res) => {
     role,
   });
 
+  const token = signToken({ id: user.id, role: user.role });
+  setAuthCookie(res, token);
+
   let emailNotice = "";
   try {
     await sendVerification(user);
@@ -85,6 +88,8 @@ const register = (role) => async (req, res) => {
   return res.status(201).json({
     success: true,
     message: `Registration successful. Please verify your email.${emailNotice}`,
+    token,
+    user: sanitizeUser(user)
   });
 };
 
@@ -104,12 +109,6 @@ const login = (role) => async (req, res) => {
   const matched = await bcrypt.compare(password, user.password_hash);
   if (!matched) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
-  }
-
-  if (!user.is_verified) {
-    return res
-      .status(403)
-      .json({ success: false, message: "Please verify your email before login" });
   }
 
   const token = signToken({ id: user.id, role: user.role });

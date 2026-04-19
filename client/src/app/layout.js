@@ -1,7 +1,9 @@
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import AppShell from "@/components/AppShell";
 import { AppProvider } from "@/context/AppContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -23,8 +25,12 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
       <body>
         <AppProvider>
-          <Navbar />
-          {children}
+          <TooltipProvider>
+            <AppShell>
+              {children}
+            </AppShell>
+            <Toaster position="top-right" richColors />
+          </TooltipProvider>
         </AppProvider>
       </body>
     </html>

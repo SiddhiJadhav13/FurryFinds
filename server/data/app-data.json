@@ -1,7 +1,200 @@
 {
-  "pets": [],
+  "pets": [
+    {
+      "_id": "pet_1776594022507_61936",
+      "name": "chaoo",
+      "category": "Dogs",
+      "breed": "golden",
+      "age": 2,
+      "price": null,
+      "vaccinationStatus": "1 month ",
+      "antibioticsHistory": "2 months ago ",
+      "diseases": "none",
+      "healthCondition": "good ",
+      "description": "",
+      "images": [
+        "https://mvvintvxjhmusqvhdfqs.supabase.co/storage/v1/object/public/pet-images/1776594021712-251192239.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T10:20:22.507Z",
+      "updatedAt": "2026-04-19T10:20:22.507Z"
+    },
+    {
+      "_id": "pet_dummy_1",
+      "name": "Loki",
+      "category": "Cats",
+      "breed": "Domestic Shorthair",
+      "age": 2,
+      "price": 150,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "A friendly cat looking for a home.",
+      "images": [
+        "/assets/cat1.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_2",
+      "name": "Sassy",
+      "category": "Cats",
+      "breed": "Siamese",
+      "age": 1,
+      "price": 200,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Energetic and playful Siamese cat.",
+      "images": [
+        "/assets/cat2.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_3",
+      "name": "Cleo",
+      "category": "Cats",
+      "breed": "Persian",
+      "age": 3,
+      "price": 300,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Calm and beautiful Persian cat.",
+      "images": [
+        "/assets/cat3.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_4",
+      "name": "Mochi",
+      "category": "Cats",
+      "breed": "Ragdoll",
+      "age": 1,
+      "price": 250,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Soft and cuddly Ragdoll cat.",
+      "images": [
+        "/assets/cat4.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_5",
+      "name": "Bailey",
+      "category": "Dogs",
+      "breed": "Golden Retriever",
+      "age": 2,
+      "price": 500,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Loyal and friendly Golden Retriever.",
+      "images": [
+        "/assets/dog1.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_6",
+      "name": "Oreo",
+      "category": "Dogs",
+      "breed": "Border Collie",
+      "age": 2,
+      "price": 400,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Very smart and active Border Collie.",
+      "images": [
+        "/assets/dog2.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_7",
+      "name": "Luna",
+      "category": "Dogs",
+      "breed": "Husky",
+      "age": 2,
+      "price": 450,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Beautiful Husky with a lot of energy.",
+      "images": [
+        "/assets/dog3.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_dummy_8",
+      "name": "Milo",
+      "category": "Dogs",
+      "breed": "Beagle",
+      "age": 1,
+      "price": 350,
+      "vaccinationStatus": "Up to date",
+      "antibioticsHistory": "None",
+      "diseases": "None",
+      "healthCondition": "Healthy",
+      "description": "Friendly and curious Beagle pup.",
+      "images": [
+        "/assets/dog4.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "poojamaskare27@gmail.com",
+      "createdAt": "2026-04-19T11:01:34.645Z",
+      "updatedAt": "2026-04-19T11:01:34.645Z"
+    }
+  ],
   "knowledgePosts": [],
-  "requests": [],
+  "requests": [
+    {
+      "_id": "req_1776594054638_42763",
+      "clientId": "poojamaskare27@gmail.com",
+      "petId": "pet_1776594022507_61936",
+      "requestType": "event",
+      "note": "Event registration: Summer Paw Parade",
+      "status": "pending",
+      "amount": 0,
+      "createdAt": "2026-04-19T10:20:54.638Z",
+      "updatedAt": "2026-04-19T10:20:54.638Z"
+    }
+  ],
   "contacts": [],
   "wishlists": {}
 }
