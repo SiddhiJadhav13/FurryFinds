@@ -56,7 +56,24 @@ export default function AdminRequestsPage() {
   };
 
   useEffect(() => {
-    loadRequests(false);
+    let mounted = true;
+    
+    // Initial load
+    const init = async () => {
+      try {
+        const headers = getAuthHeader();
+        const res = await api.get("/requests", { headers });
+        if (mounted) setRequests(res.data.requests || []);
+      } catch (error) {
+        console.error(error);
+        if (mounted) toast.error("Unable to load requests");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    init();
+    return () => { mounted = false; };
   }, []);
 
   const useSamples = !loading && requests.length === 0;

@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { api } from "@/lib/api";
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -12,9 +12,12 @@ export default function ResetPasswordPage() {
   const submit = async (e) => {
     e.preventDefault();
     try {
+      const email = searchParams.get("email");
+      const token = searchParams.get("token");
+      
       const { data } = await api.post("/auth/reset-password", {
-        email: searchParams.get("email"),
-        token: searchParams.get("token"),
+        email,
+        token,
         password,
       });
       setMessage(data.message);
@@ -24,20 +27,28 @@ export default function ResetPasswordPage() {
   };
 
   return (
+    <form onSubmit={submit} className="form-grid">
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="New password"
+        required
+      />
+      <button className="btn">Update Password</button>
+      {message && <p className="status">{message}</p>}
+    </form>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
     <main className="container simple-center">
       <section className="glass auth-card">
         <h1>Reset Password</h1>
-        <form onSubmit={submit} className="form-grid">
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="New password"
-            required
-          />
-          <button className="btn">Update Password</button>
-        </form>
-        {message && <p className="status">{message}</p>}
+        <Suspense fallback={<div className="p-4 text-center">Loading...</div>}>
+          <ResetPasswordForm />
+        </Suspense>
       </section>
     </main>
   );

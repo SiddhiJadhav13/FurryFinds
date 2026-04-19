@@ -87,7 +87,6 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
 }
 
 html,
@@ -317,7 +316,7 @@ section {
 
 .hero-content .lead {
   font-size: 1.25rem;
-  color: var(--muted);
+  color: #7a6a5a;
   max-width: 540px;
   line-height: 1.6;
 }

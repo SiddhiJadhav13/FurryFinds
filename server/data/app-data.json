@@ -179,6 +179,26 @@
       "postedBy": "poojamaskare27@gmail.com",
       "createdAt": "2026-04-19T11:01:34.645Z",
       "updatedAt": "2026-04-19T11:01:34.645Z"
+    },
+    {
+      "_id": "pet_1776600473140_63081",
+      "name": "piko",
+      "category": "Dogs",
+      "breed": "jerman",
+      "age": 3,
+      "price": null,
+      "vaccinationStatus": "1 month ",
+      "antibioticsHistory": "2 months ago ",
+      "diseases": "none",
+      "healthCondition": "good ",
+      "description": "",
+      "images": [
+        "https://mvvintvxjhmusqvhdfqs.supabase.co/storage/v1/object/public/pet-images/1776600472221-288591485.jpg"
+      ],
+      "isAvailable": true,
+      "postedBy": "sidjadhav132005@gmail.com",
+      "createdAt": "2026-04-19T12:07:53.141Z",
+      "updatedAt": "2026-04-19T12:07:53.141Z"
     }
   ],
   "knowledgePosts": [],
@@ -193,6 +213,17 @@
       "amount": 0,
       "createdAt": "2026-04-19T10:20:54.638Z",
       "updatedAt": "2026-04-19T10:20:54.638Z"
+    },
+    {
+      "_id": "req_1776600789031_84760",
+      "clientId": "sidjadhav132005@gmail.com",
+      "petId": "pet_dummy_1",
+      "requestType": "purchase",
+      "note": "",
+      "status": "pending",
+      "amount": 0,
+      "createdAt": "2026-04-19T12:13:09.032Z",
+      "updatedAt": "2026-04-19T12:13:09.034Z"
     }
   ],
   "contacts": [],

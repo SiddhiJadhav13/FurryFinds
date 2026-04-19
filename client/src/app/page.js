@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Bone, Cat, Dog, Heart, PawPrint, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
 
 export default function HomePage() {
   const pets = [
@@ -17,24 +18,30 @@ export default function HomePage() {
     <main className="home-shell">
       {/* Hero Section */}
       <section className="container hero-section">
-        <div className="hero-content">
+        <div className="hero-content text-center mx-auto flex flex-col items-center">
           <p className="kicker">Say Hello To Your New Buddy</p>
-          <h1>Our Shelter Is Filled With Loving Animals Hoping For A Forever Home.</h1>
-          <p className="lead">
+          <h1 className="text-center">Our Shelter Is Filled With Loving Animals Hoping For A Forever Home.</h1>
+          <p className="lead text-center">
             They&apos;re Waiting For Someone Like You To Give Them Warmth, Love, And Care. 
             Will You Be The One To Change Their Life?
           </p>
-          <div className="row gap-sm wrap">
-            <Link href="/auth/client/signup" className="btn btn-peach">
+          <div className="row gap-sm wrap justify-center">
+            <Link href="/auth/client/signup" className="btn btn-peach px-10 py-4">
               Adopt A Pet
             </Link>
-            <Link href="/auth/admin/login" className="btn btn-sky">
+            <Link href="/auth/admin/login" className="btn btn-sky px-10 py-4">
               Admin Login
             </Link>
           </div>
         </div>
         <div className="hero-image">
-          <img src="/assets/hero.jpg" alt="Hero Pets" />
+          <Image 
+            src="/assets/hero.jpg" 
+            alt="Hero Pets" 
+            fill
+            className="object-contain"
+            priority
+          />
         </div>
       </section>
 
@@ -68,8 +75,13 @@ export default function HomePage() {
         <div className="pet-grid">
           {pets.map((pet, i) => (
             <article key={i} className="pet-card">
-              <div className="pet-img-box">
-                <img src={pet.img} alt={pet.name} />
+              <div className="pet-img-box relative">
+                <Image 
+                  src={pet.img} 
+                  alt={pet.name} 
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="pet-name-tag">{pet.name}</div>
             </article>
