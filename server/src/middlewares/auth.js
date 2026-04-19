@@ -1,7 +1,60 @@
 const jwt = require("jsonwebtoken");
+const { createClient } = require("@supabase/supabase-js");
 const { getById } = require("../services/authDataService");
+const { ensureProfileAndStats } = require("../services/supabaseProfileService");
 
 const getJwtSecret = () => process.env.JWT_SECRET || process.env.SECRET_KEY;
+
+const SUPABASE_URL =
+  process.env.SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.CLIENT_SUPABASE_URL;
+
+const SUPABASE_KEY =
+  process.env.SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.SECRET_KEY;
+
+const supabase =
+  SUPABASE_URL && SUPABASE_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      })
+    : null;
+
+const normalizeRole = (value) => (String(value || "client").toLowerCase() === "admin" ? "admin" : "client");
+
+const resolveSupabaseUser = async (token) => {
+  if (!supabase || !token) {
+    return null;
+  }
+
+  const { data, error } = await supabase.auth.getUser(token);
+  if (error || !data?.user) {
+    return null;
+  }
+
+  const roleHint = normalizeRole(data.user.user_metadata?.role || data.user.app_metadata?.role);
+  const profile = await ensureProfileAndStats({
+    id: data.user.id,
+    email: data.user.email,
+    fullName:
+      data.user.user_metadata?.full_name ||
+      data.user.user_metadata?.name ||
+      data.user.email?.split("@")[0] ||
+      "",
+    role: roleHint,
+  });
+
+  return {
+    id: data.user.id,
+    email: data.user.email,
+    role: normalizeRole(profile?.role || roleHint),
+  };
+};
 
 const protect = async (req, res, next) => {
   try {
@@ -17,18 +70,35 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Not authorized" });
     }
 
-    const decoded = jwt.verify(token, getJwtSecret());
-    const user = await getById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: "User not found" });
+    let decoded = null;
+    try {
+      decoded = jwt.verify(token, getJwtSecret());
+    } catch (error) {
+      decoded = null;
     }
 
-    req.user = {
-      ...user,
-      role: user.role || decoded.role,
-    };
-    req.authRole = decoded.role;
+    if (decoded?.id) {
+      const user = await getById(decoded.id);
+
+      if (!user) {
+        return res.status(401).json({ success: false, message: "User not found" });
+      }
+
+      req.user = {
+        ...user,
+        role: user.role || decoded.role,
+      };
+      req.authRole = decoded.role;
+      return next();
+    }
+
+    const supabaseUser = await resolveSupabaseUser(token);
+    if (!supabaseUser) {
+      return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+
+    req.user = supabaseUser;
+    req.authRole = supabaseUser.role;
     return next();
   } catch (error) {
     return res.status(401).json({ success: false, message: "Invalid token" });

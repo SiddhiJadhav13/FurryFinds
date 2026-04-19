@@ -92,6 +92,45 @@ const initPostgres = async () => {
 
     await pool.query(createIndexQuery);
 
+    const createProfilesQuery = `
+      CREATE TABLE IF NOT EXISTS profiles (
+        id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+        full_name TEXT,
+        email TEXT,
+        phone TEXT,
+        address TEXT,
+        gender TEXT,
+        dob DATE,
+        profile_image TEXT,
+        role TEXT NOT NULL DEFAULT 'client',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+    const createClientStatsQuery = `
+      CREATE TABLE IF NOT EXISTS client_stats (
+        id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+        saved_pets_count INT NOT NULL DEFAULT 0,
+        total_requests INT NOT NULL DEFAULT 0,
+        approved_requests INT NOT NULL DEFAULT 0
+      );
+    `;
+
+    const createAdminStatsQuery = `
+      CREATE TABLE IF NOT EXISTS admin_stats (
+        id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+        total_pets INT NOT NULL DEFAULT 0,
+        pending_requests INT NOT NULL DEFAULT 0,
+        approved_requests INT NOT NULL DEFAULT 0,
+        rejected_requests INT NOT NULL DEFAULT 0,
+        total_users INT NOT NULL DEFAULT 0
+      );
+    `;
+
+    await pool.query(createProfilesQuery);
+    await pool.query(createClientStatsQuery);
+    await pool.query(createAdminStatsQuery);
+
     // eslint-disable-next-line no-console
     console.log("PostgreSQL initialized successfully");
   } catch (error) {

@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getProfile,
   updateProfile,
+  getDashboardStats,
   toggleWishlist,
   getWishlist,
   contactAdmin,
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.get("/profile", protect, getProfile);
 router.put("/profile", protect, updateProfile);
+router.get("/stats", protect, getDashboardStats);
 router.get("/wishlist", protect, authorize("client"), getWishlist);
 router.post("/wishlist/:petId", protect, authorize("client"), toggleWishlist);
 router.post("/contact", protect, authorize("client"), contactAdmin);
