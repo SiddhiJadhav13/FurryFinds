@@ -88,6 +88,7 @@ Set values in `client/.env.local`:
   - Emergency care
   - Training tips
   - General pet care blogs
+ 
 
 ## Deployment Notes
 
@@ -95,3 +96,15 @@ Set values in `client/.env.local`:
 - Deploy `server` to Render with env vars from `.env.example`
 - Configure CORS by setting `CLIENT_URL` in backend to deployed frontend URL
 - Ensure MongoDB network access allows backend deployment environment
+
+### Contribution 
+We welcome contributions to Furry Finds! Whether you want to fix a bug or help build our roadmap, here is how to get started:
+
+🚀 Features You Can Build (Future Scope)
+Smart Matching: Filters for breed size, energy levels, and kid-friendliness.
+
+Secure Chat: Direct in-app messaging between buyers and sellers.
+
+Verified Badges: Authentication for trusted shelters and licensed vendors.
+
+AI Care Assistant: Personalized food and product recommendations.
